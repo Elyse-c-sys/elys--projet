@@ -7,21 +7,36 @@
 </head>
 <body>
     <h1>Bienvenue !</h1>
-    
+
     <form method="POST">
         <label for="nom">Nom :</label>
         <input type="text" name="nom" required><br>
 
+        <label for="prenom">Prénom :</label>
+        <input type="text" name="prenom"><br>
+
+        <label for="situation_matrimoniale">Situation matrimoniale :</label>
+        <input type="text" name="situation_matrimoniale"><br>
+
+        <label for="age">Âge :</label>
+        <input type="number" name="age"><br>
+
         <label for="email">Email :</label>
         <input type="email" name="email" required><br>
+
+        <label for="ville">Ville :</label>
+        <input type="text" name="ville"><br>
+
+        <label for="message">Message :</label><br>
+        <textarea name="message" rows="4" cols="40"></textarea><br>
 
         <button type="submit">Envoyer</button>
     </form>
 
     <h2>Utilisateurs :</h2>
     <ul>
-        {% for user in donnees %}
-            <li>{{ user.nom }} - {{ user.email }}</li>
+        {% for user in utilisateurs %}
+            <li>{{ user.nom }} {{ user.prenom }} - {{ user.email }}</li>
         {% endfor %}
     </ul>
 </body>
