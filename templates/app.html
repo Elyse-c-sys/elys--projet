@@ -2,53 +2,27 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Fiche utilisateur</title>
+    <title>Mon Appli Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>📋 Fiche de présentation personnelle</h1>
-
+    <h1>Bienvenue !</h1>
+    
     <form method="POST">
-        <label>Nom :</label><br>
-        <input type="text" name="nom" required><br><br>
+        <label for="nom">Nom :</label>
+        <input type="text" name="nom" required><br>
 
-        <label>Prénom :</label><br>
-        <input type="text" name="prenom" required><br><br>
-
-        <label>Situation matrimoniale :</label><br>
-        <input type="text" name="situation_matrimoniale" required><br><br>
-
-        <label>Âge :</label><br>
-        <input type="number" name="age" required><br><br>
-
-        <label>Email :</label><br>
-        <input type="email" name="email" required><br><br>
-
-        <label>Ville :</label><br>
-        <input type="text" name="ville" required><br><br>
-
-        <label>Message :</label><br>
-        <textarea name="message" rows="4" cols="40" required></textarea><br><br>
+        <label for="email">Email :</label>
+        <input type="email" name="email" required><br>
 
         <button type="submit">Envoyer</button>
     </form>
 
-    <hr>
-    <h2>📚 Données reçues :</h2>
-
-    {% if utilisateurs %}
-        <ul>
-            {% for u in utilisateurs %}
-                <li>
-                    <strong>{{ u.nom }} {{ u.prenom }}</strong> ({{ u.age }} ans) - {{ u.ville }}<br>
-                    Situation matrimoniale : {{ u.situation_matrimoniale }}<br>
-                    Email : {{ u.email }}<br>
-                    Message : {{ u.message }}<br>
-                    <hr>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucun utilisateur encore enregistré.</p>
-    {% endif %}
+    <h2>Utilisateurs :</h2>
+    <ul>
+        {% for user in donnees %}
+            <li>{{ user.nom }} - {{ user.email }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
