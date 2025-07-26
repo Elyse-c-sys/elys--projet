@@ -6,38 +6,62 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Bienvenue !</h1>
+    <div class="container">
+        <h1>Bienvenue !</h1>
 
-    <form method="POST">
-        <label for="nom">Nom :</label>
-        <input type="text" name="nom" required><br>
+        <form method="POST">
+            <label>Nom :</label>
+            <input type="text" name="nom" required>
 
-        <label for="prenom">Prénom :</label>
-        <input type="text" name="prenom"><br>
+            <label>Prénom :</label>
+            <input type="text" name="prenom" required>
 
-        <label for="situation_matrimoniale">Situation matrimoniale :</label>
-        <input type="text" name="situation_matrimoniale"><br>
+            <label>Situation matrimoniale :</label>
+            <input type="text" name="situation_matrimoniale">
 
-        <label for="age">Âge :</label>
-        <input type="number" name="age"><br>
+            <label>Âge :</label>
+            <input type="number" name="age">
 
-        <label for="email">Email :</label>
-        <input type="email" name="email" required><br>
+            <label>Email :</label>
+            <input type="email" name="email" required>
 
-        <label for="ville">Ville :</label>
-        <input type="text" name="ville"><br>
+            <label>Ville :</label>
+            <input type="text" name="ville">
 
-        <label for="message">Message :</label><br>
-        <textarea name="message" rows="4" cols="40"></textarea><br>
+            <label>Message :</label>
+            <textarea name="message" rows="4"></textarea>
 
-        <button type="submit">Envoyer</button>
-    </form>
+            <button type="submit">Envoyer</button>
+        </form>
 
-    <h2>Utilisateurs :</h2>
-    <ul>
-        {% for user in utilisateurs %}
-            <li>{{ user.nom }} {{ user.prenom }} - {{ user.email }}</li>
-        {% endfor %}
-    </ul>
+        <h2>Utilisateurs :</h2>
+
+        {% if utilisateurs %}
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Situation</th>
+                <th>Âge</th>
+                <th>Email</th>
+                <th>Ville</th>
+                <th>Message</th>
+            </tr>
+            {% for user in utilisateurs %}
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.situation_matrimoniale }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.ville }}</td>
+                <td>{{ user.message }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>Aucun utilisateur pour l’instant.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
