@@ -2,66 +2,227 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mon Appli Flask</title>
+    <title>Fiche Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #125aab;
+        }
+
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .actions a button {
+            margin: 5px;
+        }
+
+        .success-message {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+                width: 95%;
+            }
+
+            input, select, button {
+                font-size: 16px;
+            }
+
+            table {
+                font-size: 12px;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Bienvenue !</h1>
+<div class="container">
+    <h2>📝 Formulaire Client</h2>
 
-        <form method="POST">
-            <label>Nom :</label>
-            <input type="text" name="nom" required>
+    {% if message %}
+        <div class="success-message">{{ message }}</div>
+    {% endif %}
 
-            <label>Prénom :</label>
-            <input type="text" name="prenom" required>
+    <form method="POST" onsubmit="return validerFormulaire();">
+        <label>Nom :</label>
+        <input type="text" name="nom_client" required pattern="[A-Za-zÀ-ÿ\s\-]+" title="Lettres uniquement">
 
-            <label>Situation matrimoniale :</label>
-            <input type="text" name="situation_matrimoniale">
+        <label>Prénom :</label>
+        <input type="text" name="prenom_client" required pattern="[A-Za-zÀ-ÿ\s\-]+" title="Lettres uniquement">
 
-            <label>Âge :</label>
-            <input type="number" name="age">
+        <label>Date de naissance :</label>
+        <input type="date" name="date_naissance" required>
 
-            <label>Email :</label>
-            <input type="email" name="email" required>
+        <label>Lieu de naissance :</label>
+        <input type="text" name="lieu_naissance" required>
 
-            <label>Ville :</label>
-            <input type="text" name="ville">
+        <label>Nationalité :</label>
+        <input type="text" name="nationalite" required pattern="[A-Za-zÀ-ÿ\s\-]+" title="Lettres uniquement">
 
-            <label>Message :</label>
-            <textarea name="message" rows="4"></textarea>
+        <label>Profession :</label>
+        <input type="text" name="profession" required>
 
-            <button type="submit">Envoyer</button>
-        </form>
+        <label>Organisme :</label>
+        <input type="text" name="organisme" required>
 
-        <h2>Utilisateurs :</h2>
+        <label>Domicile légal :</label>
+        <input type="text" name="domicile_legal" required>
 
-        {% if utilisateurs %}
-        <table>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Situation</th>
-                <th>Âge</th>
-                <th>Email</th>
-                <th>Ville</th>
-                <th>Message</th>
-            </tr>
-            {% for user in utilisateurs %}
-            <tr>
-                <td>{{ user.nom }}</td>
-                <td>{{ user.prenom }}</td>
-                <td>{{ user.situation_matrimoniale }}</td>
-                <td>{{ user.age }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.ville }}</td>
-                <td>{{ user.message }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        {% else %}
-            <p>Aucun utilisateur pour l’instant.</p>
-        {% endif %}
+        <label>Provenance :</label>
+        <input type="text" name="venant_de" required>
+
+        <label>Destination :</label>
+        <input type="text" name="allant_a" required>
+
+        <label>Moyen de transport :</label>
+        <input type="text" name="transport" required>
+
+        <label>Téléphone :</label>
+        <input type="tel" name="telephone" required>
+
+        <label>Type de pièce :</label>
+        <select name="type_piece" required>
+            <option value="">-- Sélectionner --</option>
+            <option value="passeport">Passeport</option>
+            <option value="carte">Carte d'identité</option>
+            <option value="permis">Permis de conduire</option>
+            <option value="autre">Autre</option>
+        </select>
+
+        <label>Numéro de la pièce :</label>
+        <input type="text" name="numero_piece" required>
+
+        <label>Date de délivrance :</label>
+        <input type="date" name="date_delivrance" required>
+
+        <label>Lieu de délivrance :</label>
+        <input type="text" name="lieu_delivrance" required>
+
+        <label>Date d’arrivée :</label>
+        <input type="date" name="date_arrivee" required>
+
+        <label>Date de départ :</label>
+        <input type="date" name="date_depart" required>
+
+        <label>Motif du voyage :</label>
+        <input type="text" name="motif" required>
+
+        <label>Date de renseignement :</label>
+        <input type="date" name="date_renseignement" required>
+
+        <button type="submit">✅ Enregistrer</button>
+    </form>
+
+    <div class="actions">
+        <a href="/export"><button>📥 Télécharger les données</button></a>
+        <a href="/logout"><button>🔒 Déconnexion</button></a>
     </div>
+
+    {% if clients %}
+    <h3>📋 Clients enregistrés :</h3>
+    <table>
+        <tr>
+            {% for key in clients[0].keys() %}
+                <th>{{ key.replace('_', ' ') }}</th>
+            {% endfor %}
+        </tr>
+        {% for client in clients %}
+            <tr>
+                {% for val in client.values() %}
+                    <td>{{ val }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+<script>
+function validerFormulaire() {
+    const nom = document.querySelector('[name="nom_client"]').value;
+    const prenom = document.querySelector('[name="prenom_client"]').value;
+
+    const lettresUniquement = /^[A-Za-zÀ-ÿ\\s\\-]+$/;
+
+    if (!lettresUniquement.test(nom) || !lettresUniquement.test(prenom)) {
+        alert("❌ Le nom et le prénom ne doivent contenir que des lettres !");
+        return false;
+    }
+
+    return true;
+}
+</script>
 </body>
 </html>
