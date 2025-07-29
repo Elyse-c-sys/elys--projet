@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion Gérant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="gerant">
+    <h1 class="titre-gerant">Welcome receptionniste</h1>
+    <h3 class="sous-titre">📝 Identifiez-vous</h3>
+
+    {% if erreur %}
+        <p class="error">{{ erreur }}</p>
+    {% endif %}
+
+    <form method="post">
+        <label>Nom</label>
+        <input type="text" name="nom" required>
+
+        <label>Prénom</label>
+        <input type="text" name="prenom" required>
+        
+        <label>Mot de passe</label>
+        <input type="password" name="mot_de_passe" required>
+
+        <button type="submit">Connexion</button>
+    </form>
+</body>
+</html>

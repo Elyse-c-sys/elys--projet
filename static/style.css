@@ -1,41 +1,171 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+/* ----------- PAGE D'ACCUEIL ----------- */
+body.accueil {
     margin: 0;
     padding: 0;
+    height: 100vh;
+    background: linear-gradient(-45deg, #007BFF, #0055aa, #003377, #001a40);
+    background-size: 400% 400%;
+    animation: bougeFond 15s ease infinite;
+    color: white;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.container {
-    width: 90%;
-    max-width: 800px;
-    margin: 30px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+@keyframes bougeFond {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
-h2 {
+
+.titre-principal {
+    font-size: 3em;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.highlight {
+    color: #a5f3fc;
+}
+
+.directeur {
+    font-size: 1.5em;
+    font-style: italic;
+    margin-top: 20px;
+    color: #cce6ff;
+}
+
+.signature {
+    font-weight: bold;
+    color: #22d3ee;
+}
+
+.bouton-acces {
+    margin-top: 40px;
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.bouton-acces:hover {
+    background-color: #059669;
+}
+
+/* ----------- AUTRES PAGES ----------- */
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f1f5f4;
+    color: #222;
+    padding: 30px;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
     text-align: center;
 }
-input, select, textarea {
+
+.titre-gerant {
+    font-size: 2em;
+    color: #134e4a;
+}
+
+.sous-titre {
+    font-size: 1.2em;
+    color: #0c4a6e;
+    margin-bottom: 20px;
+}
+
+form {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input, select, button {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    font-size: 14px;
 }
+
 button {
-    background-color: #4CAF50;
+    background-color: #16a34a;
     color: white;
-    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    margin-top: 20px;
     cursor: pointer;
+    transition: background 0.3s;
 }
+
 button:hover {
-    background-color: #45a049;
+    background-color: #15803d;
 }
-.erreur {
-    color: red;
-    font-weight: bold;
+
+.success {
+    color: green;
     text-align: center;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #e0f2f1;
+}
+.ambigram-container {
+    text-align: center;
+    margin: 30px auto;
+}
+
+.ambigram-normal,
+.ambigram-miroir {
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    color: #1b5e20;
+    letter-spacing: 4px;
+}
+
+.ambigram-miroir {
+    transform: scaleY(-1);
+    opacity: 0.4;
+    margin-top: -20px;
 }

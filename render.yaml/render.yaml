@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: mon-site-flask
+    name: elys--projet
     env: python
     buildCommand: ""
     startCommand: "python app.py"

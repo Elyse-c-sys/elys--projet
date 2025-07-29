@@ -1,22 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file
-import csv
 import os
-import getpass
+import csv
 
 app = Flask(__name__)
 app.secret_key = "cle_super_secrete"
-
-# Mot de passe du gérant
 GERANT_MDP = "Pension@2025"
 
-# 📂 Dossier sur le bureau
-utilisateur = getpass.getuser()
-DOSSIER_DONNEES = os.path.join("C:/Users", utilisateur, "Desktop", "CLIENT ENREGISTRE")
+DOSSIER_DONNEES = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(DOSSIER_DONNEES, exist_ok=True)
 FICHIER_CSV = os.path.join(DOSSIER_DONNEES, "clients.csv")
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
+def accueil():
+    return render_template("accueil.html")
+
+
+@app.route("/gerant", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         nom = request.form.get("nom")
@@ -28,8 +28,8 @@ def login():
             session["gerant"] = {"nom": nom, "prenom": prenom, "numero": numero}
             return redirect(url_for("fiche"))
         else:
-            return render_template("login.html", erreur="Mot de passe incorrect.")
-    return render_template("login.html")
+            return render_template("gerant.html", erreur="Mot de passe incorrect.")
+    return render_template("gerant.html")
 
 
 @app.route("/fiche", methods=["GET", "POST"])
@@ -39,9 +39,16 @@ def fiche():
 
     message = ""
     if request.method == "POST":
+        type_piece = request.form.get("type_piece", "")
+        numero_piece = request.form.get("numero_piece", "")
+        nom_autre_piece = request.form.get("nom_autre_piece", "")
+
+        if type_piece == "Autre" and nom_autre_piece:
+            numero_piece += f" ({nom_autre_piece})"
+
         donnees = {
-            "Nom": request.form.get("nom_client"),
-            "Prenom": request.form.get("prenom_client"),
+            "Nom": " ".join(request.form.get("nom_client", "").split()),
+            "Prenom": " ".join(request.form.get("prenom_client", "").split()),
             "Date_naissance": request.form.get("date_naissance"),
             "Lieu_naissance": request.form.get("lieu_naissance"),
             "Nationalite": request.form.get("nationalite"),
@@ -52,8 +59,8 @@ def fiche():
             "Allant_a": request.form.get("allant_a"),
             "Transport": request.form.get("transport"),
             "Telephone": request.form.get("telephone"),
-            "Type_piece": request.form.get("type_piece"),
-            "Numero_piece": request.form.get("numero_piece"),
+            "Type_piece": type_piece,
+            "Numero_piece": numero_piece,
             "Date_delivrance": request.form.get("date_delivrance"),
             "Lieu_delivrance": request.form.get("lieu_delivrance"),
             "Date_arrivee": request.form.get("date_arrivee"),
@@ -71,7 +78,6 @@ def fiche():
 
         message = "✅ Client enregistré avec succès"
 
-    # Lire les données enregistrées
     clients = []
     if os.path.exists(FICHIER_CSV):
         with open(FICHIER_CSV, newline="", encoding="utf-8") as f:
