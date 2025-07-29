@@ -99,6 +99,30 @@ def logout():
     session.pop("gerant", None)
     return redirect(url_for("login"))
 
+@app.route("/supprimer/<int:index>", methods=["POST"])
+def supprimer(index):
+    if "gerant" not in session:
+        return "Non autorisé", 403
+
+    if os.path.exists(FICHIER_CSV):
+        with open(FICHIER_CSV, newline="", encoding="utf-8") as f:
+            lignes = list(csv.DictReader(f))
+
+        if 0 <= index < len(lignes):
+            del lignes[index]
+            # Réécriture complète du fichier CSV sans l'entrée supprimée
+            with open(FICHIER_CSV, "w", newline="", encoding="utf-8") as f:
+                if lignes:
+                    writer = csv.DictWriter(f, fieldnames=lignes[0].keys())
+                    writer.writeheader()
+                    writer.writerows(lignes)
+                else:
+                    f.truncate()  # Vide le fichier s'il ne reste plus rien
+
+        return "", 204
+    return "Fichier introuvable", 404
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -5,25 +5,27 @@
     <title>Connexion Gérant</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="gerant">
-    <h1 class="titre-gerant">Welcome receptionniste</h1>
-    <h3 class="sous-titre">📝 Identifiez-vous</h3>
+<body>
+    <div class="container">
+        <h1>Welcome réceptionniste</h1>
+        <h2>📝 Identifiez-vous</h2>
 
-    {% if erreur %}
-        <p class="error">{{ erreur }}</p>
-    {% endif %}
+        {% if erreur %}
+            <div class="popup">{{ erreur }}</div>
+        {% endif %}
 
-    <form method="post">
-        <label>Nom</label>
-        <input type="text" name="nom" required>
+        <form method="POST" action="/gerant">
+            <label for="nom">Nom</label>
+            <input type="text" name="nom" id="nom" required>
 
-        <label>Prénom</label>
-        <input type="text" name="prenom" required>
-        
-        <label>Mot de passe</label>
-        <input type="password" name="mot_de_passe" required>
+            <label for="prenom">Prénom</label>
+            <input type="text" name="prenom" id="prenom" required>
 
-        <button type="submit">Connexion</button>
-    </form>
+            <label for="mot_de_passe">Mot de passe</label>
+            <input type="password" name="mot_de_passe" id="mot_de_passe" required>
+
+            <button type="submit">Connexion</button>
+        </form>
+    </div>
 </body>
 </html>

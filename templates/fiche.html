@@ -4,18 +4,48 @@
     <meta charset="UTF-8">
     <title>FICHE DE RENSEIGNEMENT CLIENT</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        form label {
+            font-weight: bold;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            color: black;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00b894;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-
-        <!-- ✅ LOGO de l'hôtel -->
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='hotel_logo.png') }}" alt="Logo de l’hôtel" class="hotel-logo">
-        </div>
-
         <h1>FICHE DE RENSEIGNEMENT CLIENT</h1>
 
-        <!-- ✅ Notification douce -->
         {% if message %}
         <div class="popup">{{ message }}</div>
         {% endif %}
@@ -59,7 +89,7 @@
 
             <label>Type de pièce d'identité :</label>
             <select name="type_piece" id="type_piece" onchange="afficherChampAutre()">
-                <option value="Carte">Carte</option>
+                <option value="Carte">Carte d'identitée</option>
                 <option value="Passeport">Passeport</option>
                 <option value="Permis">Permis</option>
                 <option value="Autre">Autre</option>
@@ -94,42 +124,58 @@
             <button type="submit">Enregistrer</button>
         </form>
 
-        <!-- ✅ Liste des clients enregistrés -->
         {% if clients %}
         <h2>Liste des clients enregistrés</h2>
-        <table>
-            <thead>
-                <tr>
-                    {% for key in clients[0].keys() %}
-                        <th>{{ key }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for client in clients %}
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
                     <tr>
-                        {% for value in client.values() %}
-                            <td>{{ value }}</td>
+                        {% for key in clients[0].keys() %}
+                            <th>{{ key }}</th>
                         {% endfor %}
+                        <th>Action</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                        <tr>
+                            {% for value in client.values() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                            <td>
+                                <button onclick="demanderSuppression({{ loop.index0 }})">🗑️ Supprimer</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% endif %}
-
     </div>
 
-    <!-- ✅ JavaScript pour afficher le champ "Autre" -->
     <script>
-        function afficherChampAutre() {
-            const select = document.getElementById("type_piece");
-            const champAutre = document.getElementById("champ_autre_piece");
-            if (select.value === "Autre") {
-                champAutre.style.display = "block";
-            } else {
-                champAutre.style.display = "none";
-            }
+    function afficherChampAutre() {
+        var typePiece = document.getElementById("type_piece").value;
+        var champAutre = document.getElementById("champ_autre_piece");
+        champAutre.style.display = (typePiece === "Autre") ? "block" : "none";
+    }
+
+    function demanderSuppression(index) {
+        const motDePasse = prompt("Entrez le mot de passe pour supprimer :");
+        if (motDePasse === "Pension@2025") {
+            fetch("/supprimer/" + index, {
+                method: "POST"
+            }).then(function(response) {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert("Erreur lors de la suppression.");
+                }
+            });
+        } else {
+            alert("❌ Mot de passe incorrect. Suppression annulée.");
         }
+    }
     </script>
 </body>
 </html>
